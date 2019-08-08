@@ -1,4 +1,4 @@
-module Maths where 
+module Factors where 
 
 import System.Environment
 import Data.List
@@ -40,12 +40,14 @@ factorize :: Integer -> [Integer]
 factorize n | n <= 0 = error "n must be positive"
             | n == 1 = []
             | otherwise = factorize2 n 2
-            -- use factorize 2 to drop already checked prime factors
-            where factorize2 m start = let psDrop = dropWhile (< start) primes
-                                           psTake = takeWhile (<= isqrt m) psDrop
-                                           in case firstThat (divides m) psTake of
-                                                   Nothing -> [m]
-                                                   Just fact -> fact : factorize2 (m `quot` fact) fact
+  -- use factorize 2 to drop already checked prime factors
+  where factorize2 m start =
+          let psDrop = dropWhile (< start) primes
+              psTake = takeWhile (<= isqrt m) psDrop
+              in case firstThat (divides m) psTake of
+                      Nothing -> [m]
+                      Just fact -> fact : factorize2 (m `quot` fact) fact
+            
                                       
 -- |A representation of the factors of n
 showFactors :: Integer -> String
